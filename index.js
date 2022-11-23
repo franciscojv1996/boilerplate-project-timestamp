@@ -25,8 +25,8 @@ app.get("/api/timestamp/", function (req, res) {
 });
 
 
-app.get("/api/timestamp/:date_string?", function (req, res) {
-  var reqString = req.params.date_string;
+app.get("/api/timestamp/:reqString?", function (req, res) {
+  var reqString = req.params.reqString;
   var resDate;
   
   if (!/^\d{4}-/.test(reqString)) reqString = parseInt(reqString);
