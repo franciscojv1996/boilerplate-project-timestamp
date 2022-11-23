@@ -28,9 +28,7 @@
         -->
         <li><a href="/api/timestamp/">[project url]/api/2015-12-25</a></li>
         <li>
-          <a href="/api/timestamp/:reqString?"
-            >[project url]/api/1451001600000</a
-          >
+          <a id="time">[project url]/api/1451001600000</a>
         </li>
       </ul>
 
@@ -45,4 +43,10 @@
       <p>By <a href="https://www.freecodecamp.org/">freeCodeCamp.org</a></p>
     </div>
   </body>
+  <script>
+    let resDate = new Date();
+    //resDate.valueOf() Element.setAttribute(name, value);
+    let link = document.getElementById("time");
+    link.setAttribute("href", "/api/timestamp/" + resDate.valueOf().toString());
+  </script>
 </html>
