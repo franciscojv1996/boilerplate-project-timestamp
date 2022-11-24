@@ -1,4 +1,4 @@
-// index.js
+// server.js
 // where your node app starts
 
 // init project
@@ -18,30 +18,38 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + "/views/index.html");
 });
 
-
-app.get("/api/timestamp/", function (req, res) {
-  var resDate = new Date();
-  res.json({ unix: resDate.valueOf(), utc: resDate.toUTCString() });
-});
-
-
-app.get("/api/timestamp/:reqString?", function (req, res) {
-  var reqString = req.params.reqString;
-  var resDate;
-  
-  if (!/^\d{4}-/.test(reqString)) reqString = parseInt(reqString);
-  resDate = new Date(reqString);
-
-  if (resDate.getTime() !== resDate.getTime()) {
-    res.json({ error: "Invalid Date" });
-  }
-  res.json({ unix: resDate.valueOf(), utc: resDate.toUTCString() });
-});
-
 // your first API endpoint...
 app.get("/api/hello", function (req, res) {
-  console.log("hola tiempo");
-  res.json({greeting: 'hello API'});
+  res.json({ greeting: "hello API" });
+});
+
+app.get("/api", (req, res) => {
+  let date = new Date();
+  let json = { unix: date.getTime(), utc: date.toUTCString() };
+  res.send(json);
+});
+
+app.get("/api/:date_string", (req, res) => {
+
+  let date_string = req.params.date_string;
+  let json;
+  let date;
+
+  if (/-/g.test(date_string)) {
+    date = new Date(date_string);
+  } else if (/ /g.test(date_string)) {
+    date = new Date(date_string);
+  } else {
+    date = new Date(Number(date_string));
+  }
+
+  if (date.getTime() === null || date.toUTCString() === "Invalid Date") {
+    json = { error: "Invalid Date" };
+  } else {
+    json = { unix: Number(date.getTime()), utc: date.toUTCString() };
+  }
+  
+  res.json(json);
 });
 
 // listen for requests :)
